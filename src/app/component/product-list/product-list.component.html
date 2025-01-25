@@ -1,0 +1,15 @@
+
+<a [routerLink] = "['/nuevo','producto']" class="btn btn-success mb-3">Nuevo producto</a>
+<hr>
+<a [routerLink] = "['/home']" class="btn btn-success mb-3">Volver al home</a>
+
+
+
+<div class="row">
+    @for(producto of arrProductos; track producto._id){
+        <article class="col-12 col-md-6 col-md-3">
+            <app-product-card [miProducto]="producto"></app-product-card>
+        </article>
+    }
+
+</div>

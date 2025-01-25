@@ -1,0 +1,7 @@
+input.ng-valid.ng-touched{
+    border-bottom: 2px solid lightgreen
+}
+
+input.ng-invalid.ng-touched {
+    border-bottom: 2px solid tomato;
+}

@@ -1,0 +1,74 @@
+<a [routerLink]="['/productos']" class="btn btn-success mb-3">ir a los productos</a>
+<hr>
+<a [routerLink]="['/home']" class="btn btn-success mb-3">ir al home</a>
+
+
+
+<!--Formulario-->
+
+<section class="container mt-3">
+
+        <form [formGroup]="ProductForm" (ngSubmit)="onSubmit()" class="card p-3 shadow">
+            <div class="my-2">  
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control mb-3" placeholder="nombre" id="name" formControlName="name">
+                @if(checkControl('name','required')){
+                    <p class="error">Campo requerido</p>
+                }
+                @if(checkControl('name','minlength')){
+                    <p class="error">El campo debe tener al menos 3 caracteres</p>
+                }
+            </div>
+            <div class="my-2">  
+                <label for="description" class="form-label">Descripcion</label>
+                <input type="text" class="form-control mb-3" placeholder="Descripcion" id="edad" formControlName="description">
+                @if(checkControl('name','required')){
+                    <p class="error">Campo requerido</p>
+                }
+            </div>
+            <div class="my-2">  
+                <label for="price" class="form-label">Precio</label>
+                <input type="text" class="form-control mb-3" placeholder="Precio" id="price" formControlName="price">
+                @if(checkControl('name','required')){
+                    <p class="error">Campo requerido</p>
+                }
+                @if (checkControl('email','pattern')) {
+                    <p class="error">Formato incorrecto</p>
+                }
+            </div>
+            <div class="my-2">  
+                <label for="category" class="form-label">Categoria</label>
+                <input type="text" class="form-control mb-3" placeholder="categoria" id="category" formControlName="category">
+                @if(checkControl('name','required')){
+                    <p class="error">Campo requerido</p>
+                }
+            </div>
+            <div class="my-2">
+                <label for="image" class="form-label">Url de la Imagen</label>
+                <input 
+                type="text"
+                id="image"
+                class="form-control"
+                placeholder="Introduce la Url de la imagen"
+                name="image"
+                formControlName="image"
+                >
+                
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="active">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Activo?</label>
+                @if(checkControl('active','required')){
+                    <p class="error">Campo requerido</p>
+                }
+            </div>
+            <hr>
+            <button
+                type="submit"
+                class="btn btn-secondary" 
+                [disabled]="!ProductForm.valid">Guardar
+            </button>
+            
+        </form>
+
+</section>
