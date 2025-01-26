@@ -41,7 +41,7 @@ ngOnInit(): void {
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     description: new FormControl(null, [Validators.required, Validators.maxLength(200)]),
     price: new FormControl(null, [Validators.required, Validators.min(0)]),
-    category: new FormControl(null, [Validators.required, Validators.min(3)]),
+    category: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     image: new FormControl(null, [Validators.required]),
     active: new FormControl(true, [Validators.required]),
   });
@@ -55,12 +55,13 @@ onSubmit() {
     const product: IProduct = this.ProductForm.value as IProduct;
 
     
-    this.arrProductos.push(product);
+
 
     
     this.ProductoService
       .insert(product)
       .then(() => {
+        this.ProductoService.getAllProductos().push(product);
         alert('Producto agregado con éxito');
         this.router.navigate(['/productos']);
       })

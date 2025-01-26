@@ -13,7 +13,7 @@ export class ProductoService {
   constructor(private http: HttpClient) {
     this.arrProductos = [];
     //JsonBlob solo permite POST y GET. Todo lo de eliminacion es en local.
-    fetch("http://jsonblob.com/api/1332782547565993984")
+    fetch("https://jsonblob.com/api/1332782547565993984")
       .then(response => response.json())
       .then(productos => {
           productos.forEach((element: any) => {
@@ -61,7 +61,7 @@ if ( filter.nombre != undefined) {
 
 
 
- private apiUrl = 'http://jsonblob.com/api/1331621654476021760'
+ private apiUrl = 'https://jsonblob.com/api/1331621654476021760'
 private productos: IProduct[] = [];
  httpClient = inject(HttpClient);
 
@@ -74,7 +74,7 @@ private productos: IProduct[] = [];
   return this.httpClient.get<IProduct[]>(this.apiUrl);
   }
 
-//   // Guardar productos en el array
+//   // guardar productos en el array
 //   private setProducto(productos: IProduct[]): void {
 //     this.productos = productos;
 //   }
@@ -103,7 +103,7 @@ private productos: IProduct[] = [];
 }
 
   insert(producto: IProduct): Promise<IProduct>{
-   return lastValueFrom(this.httpClient.post<IProduct>(this.apiUrl, producto));
+   return lastValueFrom(this.httpClient.put<IProduct>(this.apiUrl, producto));
  }
 
 //   update(producto: IProduct): Promise<IProduct> {

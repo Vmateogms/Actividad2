@@ -28,7 +28,7 @@
             </div>
             <div class="my-2">  
                 <label for="price" class="form-label">Precio</label>
-                <input type="text" class="form-control mb-3" placeholder="Precio" id="price" formControlName="price">
+                <input type="number" class="form-control mb-3" placeholder="Precio" id="price" formControlName="price">
                 @if(checkControl('name','required')){
                     <p class="error">Campo requerido</p>
                 }
@@ -41,6 +41,9 @@
                 <input type="text" class="form-control mb-3" placeholder="categoria" id="category" formControlName="category">
                 @if(checkControl('name','required')){
                     <p class="error">Campo requerido</p>
+                }
+                @if(checkControl('name','minlength')){
+                    <p class="error">El campo debe tener al menos 3 caracteres</p>
                 }
             </div>
             <div class="my-2">
