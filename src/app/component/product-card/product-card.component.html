@@ -1,10 +1,16 @@
 <div class="card bg-light text-blue shadow-sm m-2" style="width: 18rem;">
     <img [src]="miProducto.image" class="card-img-top" [alt]="miProducto.name">
-    <div class="card-body">
-        <h5 class="card-title text-primary">{{ miProducto.name }}</h5>
-        <p class="card-text text-muted">{{ miProducto.category }}</p>
-        <p class="card-text">{{miProducto.price}}</p>
-        <p class="card-text">{{ miProducto.description }}</p>
+    <div class="card-body d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="card-title text-primary mb-0 fw-bold">{{ miProducto.name }}</h5>
+            <span class="badge bg-secondary">{{ miProducto.category }}</span>
+        </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="h5 text-success mb-0">
+                    {{ miProducto.price }}
+                </span>
+            </div>
+        <p class="card-text card-text text-muted small mb-2">{{ miProducto.description }}</p>
         <button class="btn btn-outline-danger btn-sm" (click)="deleteProducto(miProducto)">Eliminar</button>
     </div>
 </div>
