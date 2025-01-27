@@ -1,1 +1,25 @@
-<p>product-filter works!</p>
+<section class="container mt-3">
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilter()" class="card p-3 shadow">
+    <div class="my-2">
+      <label for="name" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="name" formControlName="name" placeholder="Filtrar por nombre">
+    </div>
+    <div class="my-2">
+      <label for="category" class="form-label">Categoría</label>
+      <input type="text" class="form-control" id="category" formControlName="category" placeholder="Filtrar por categoría">
+    </div>
+    <div class="my-2">
+      <label for="minPrice" class="form-label">Precio mínimo</label>
+      <input type="number" class="form-control" id="minPrice" formControlName="minPrice" placeholder="Precio mínimo">
+    </div>
+    <div class="my-2">
+      <label for="maxPrice" class="form-label">Precio máximo</label>
+      <input type="number" class="form-control" id="maxPrice" formControlName="maxPrice" placeholder="Precio máximo">
+    </div>
+    <div class="form-check my-2">
+      <input class="form-check-input" type="checkbox" id="active" formControlName="active">
+      <label class="form-check-label" for="active">Activo</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+  </form>
+</section>

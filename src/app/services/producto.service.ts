@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
+import { filter, lastValueFrom, Observable } from 'rxjs';
 import { IProduct } from '../interface/iproducto';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,6 +9,10 @@ import { HttpClient } from '@angular/common/http';
 export class ProductoService {
 
   private arrProductos: IProduct[];
+  private apiUrl = 'https://jsonblob.com/api/1331621654476021760'
+  private productos: IProduct[] = [];
+   httpClient = inject(HttpClient);
+
 
   constructor(private http: HttpClient) {
     this.arrProductos = [];
@@ -27,7 +31,7 @@ export class ProductoService {
 
 
 
-  
+
   getAllProductos(): IProduct[]
   {
     return this.arrProductos;
@@ -54,19 +58,23 @@ if ( filter.nombre != undefined) {
 }
 
 
+filterProductos(filters: any): IProduct[] {
+  console.log("Filtrando con los valores:", filters);
+  return this.arrProductos.filter(product => {
+    return (
+      (!filters.name || product.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+      (!filters.category || product.category.toLowerCase().includes(filters.category.toLowerCase())) &&
+      (!filters.minPrice || product.price >= filters.minPrice) &&
+      (!filters.maxPrice || product.price <= filters.maxPrice) &&
+      (filters.active === undefined || product.active === filters.active)
+    );
+  })
+}
 
 
 
 
 
-
-
- private apiUrl = 'https://jsonblob.com/api/1331621654476021760'
-private productos: IProduct[] = [];
- httpClient = inject(HttpClient);
-
-
-//   constructor(private http: HttpClient) {}
 
 
 // hacer fetch de los productos y rellenar el array interno
@@ -74,28 +82,10 @@ private productos: IProduct[] = [];
   return this.httpClient.get<IProduct[]>(this.apiUrl);
   }
 
-//   // guardar productos en el array
-//   private setProducto(productos: IProduct[]): void {
-//     this.productos = productos;
-//   }
-
-//   getProductosWithObservables(): Observable<IProduct[]>{
-//     return this.httpClient.get<IProduct[]>(this.apiUrl);
-//   }
-
-//     //promises
-//     getAllWithPromises(): Promise<IProduct[]> {
-//       return lastValueFrom(this.httpClient.get<IProduct[]>(this.apiUrl));
-//     }
-
 //   // Obtener productos del array
    getProducto(): IProduct[] {
    return this.arrProductos;
  }
-
-//   getByName(id: string): Promise<IProduct>{
-//     return lastValueFrom(this.httpClient.get<IProduct>(`${this.apiUrl}/${name}`));
-//   }
 
 
   delete(id: string): Promise<IProduct> {
@@ -105,13 +95,5 @@ private productos: IProduct[] = [];
   insert(producto: IProduct): Promise<IProduct>{
    return lastValueFrom(this.httpClient.put<IProduct>(this.apiUrl, producto));
  }
-
-//   update(producto: IProduct): Promise<IProduct> {
-//     return lastValueFrom(this.httpClient.put<IProduct>(`${this.apiUrl}/${producto._id}`, producto))
-//   }
-//   deleteById(id: string): Observable<void>{
-//     return this.http.delete<void>(`${this.apiUrl}/${id}`);
-//     }
-// } 
 
 }

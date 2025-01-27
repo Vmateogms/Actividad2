@@ -1,0 +1,20 @@
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline-danger {
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
