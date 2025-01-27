@@ -1,24 +1,26 @@
 <section class="container mt-3">
   <form [formGroup]="filterForm" (ngSubmit)="applyFilter()" class="card p-3 shadow">
     <div class="my-2">
-      <label for="name" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="name" formControlName="name" placeholder="Filtrar por nombre">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Filtrar por nombre">
+    </div>
+    <select class="form-select" formControlName="categoria">
+      <option value="">Todas las categorías</option>
+      <option value="Hombre">Hombre</option>
+      <option value="Mujer">Mujer</option>
+      <option value="Niño">Niño</option>
+    </select>
+    <div class="my-2">
+      <label for="precioMin" class="form-label">Precio mínimo</label>
+      <input type="number" class="form-control" id="precioMin" formControlName="precioMin" placeholder="Precio mínimo">
     </div>
     <div class="my-2">
-      <label for="category" class="form-label">Categoría</label>
-      <input type="text" class="form-control" id="category" formControlName="category" placeholder="Filtrar por categoría">
+      <label for="precioMax" class="form-label">Precio máximo</label>
+      <input type="number" class="form-control" id="precioMax" formControlName="precioMax" placeholder="Precio máximo">
     </div>
-    <div class="my-2">
-      <label for="minPrice" class="form-label">Precio mínimo</label>
-      <input type="number" class="form-control" id="minPrice" formControlName="minPrice" placeholder="Precio mínimo">
-    </div>
-    <div class="my-2">
-      <label for="maxPrice" class="form-label">Precio máximo</label>
-      <input type="number" class="form-control" id="maxPrice" formControlName="maxPrice" placeholder="Precio máximo">
-    </div>
-    <div class="form-check my-2">
-      <input class="form-check-input" type="checkbox" id="active" formControlName="active">
-      <label class="form-check-label" for="active">Activo</label>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="activo" formControlName="activo">
+      <label class="form-check-label" for="activo">Activo</label>
     </div>
     <button type="submit" class="btn btn-primary">Aplicar filtros</button>
   </form>

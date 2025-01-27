@@ -15,26 +15,36 @@ import { ProductFilterComponent } from "../product-filter/product-filter.compone
   styleUrl: './product-list.component.css'
 })
 
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
+  arrProductos: IProduct[] = [];
+  filteredProducts: IProduct[] = [];
+  productService = inject(ProductoService);
 
+  constructor(private productoService: ProductoService) {}
 
-arrProductos: IProduct[] = []
-ProductoService = inject(ProductoService);
-filteredProducts: IProduct[] = [];
+  async ngOnInit(): Promise<void> {
+    try {
+      this.arrProductos = await this.productoService.getAllProducts(); 
+      this.filteredProducts =  [...this.arrProductos];
+    } catch(error) {
+      console.log("Error cargando productos", error);
+    }
+  }
 
+  async onProductDeleted(): Promise<void> {
+    this.arrProductos = await this.productoService.getAllProducts();
+    this.filteredProducts = this.productoService.filtrarProductos({});
+  }
 
-
-ngOnInit(): void {
-  this.arrProductos = this.ProductoService.getAllProductos();
-  console.log("Productos cargados:", this.arrProductos);
-  this.filteredProducts = [...this.arrProductos];
-  
+  aplicarFiltros(filtros: any): void {
+    
+    const filtrosParseados = {
+      nombre: filtros.nombre || '',
+      categoria: filtros.categoria || '',
+      precioMin: filtros.precioMin ? Number(filtros.precioMin) : undefined,
+      precioMax: filtros.precioMax ? Number(filtros.precioMax) : undefined,
+      activo: filtros.activo || false
+    };
+    this.filteredProducts = this.productoService.filtrarProductos(filtrosParseados);
 }
-
-FiltersViewChange(filters: any): void {
-  console.log("Filtros recibidos:", filters);
-  this.filteredProducts = this.ProductoService.filterProductos(filters);
-}
-
-
 }

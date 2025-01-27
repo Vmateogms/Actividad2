@@ -3,12 +3,17 @@
 <hr>
 <a [routerLink] = "['/home']" class="btn btn-success mb-3">Volver al home</a>
 
-<app-product-filter (filtersChanged)="FiltersViewChange($event)"></app-product-filter>
+<app-product-filter 
+    (filtersChanged)="aplicarFiltros($event)"> 
+</app-product-filter>
 
 <div class="row">
-    @for(producto of arrProductos; track producto._id){
+    @for(producto of filteredProducts; track producto._id){
         <article class="col-12 col-md-6 col-md-3">
-            <app-product-card [miProducto]="producto"></app-product-card>
+            <app-product-card 
+            [miProducto]="producto"
+            (productDeleted)="onProductDeleted()">
+        </app-product-card>
         </article>
     }
 

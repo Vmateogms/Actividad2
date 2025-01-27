@@ -1,4 +1,4 @@
-import { Component, Input, input, inject } from '@angular/core';
+import { Component, Input, input, inject, Output, EventEmitter } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { IProduct } from '../../interface/iproducto';
 
@@ -12,8 +12,12 @@ import { IProduct } from '../../interface/iproducto';
 export class ProductCardComponent {
 @Input() miProducto!: IProduct;
 productoService = inject(ProductoService)
+@Output() productDeleted = new EventEmitter<void>();
 
 
-deleteProducto(producto: IProduct) 
-{ this.productoService.deleteByName(producto.name); }
+async deleteProducto(producto: IProduct) {
+  this.productoService.eliminarProducto(producto._id); 
+  this.productDeleted.emit();
+}
+
 }

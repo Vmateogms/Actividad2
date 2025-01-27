@@ -14,7 +14,7 @@ import { IProduct } from '../../interface/iproducto';
 export class ProductFormComponent {
 
 arrProductos: IProduct[];
-ProductForm: FormGroup;
+ProductForm!: FormGroup;
 products: IProduct[] = [];
 
 
@@ -22,6 +22,12 @@ ProductoService = inject(ProductoService);
 router = inject(Router)
 
 constructor(){
+  this.inicializarFormulario();
+  this.arrProductos = [];
+}
+
+
+private inicializarFormulario(): void {
   this.ProductForm = new FormGroup ({
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     description: new FormControl(null, [Validators.required, Validators.maxLength(200)]),
@@ -30,22 +36,8 @@ constructor(){
     image: new FormControl(null, [Validators.required]),
     active: new FormControl(true, [Validators.required]),
   });
-  this.arrProductos = [];
-
 }
 
-
-
-ngOnInit(): void {
-  this.ProductForm = new FormGroup({
-    name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-    description: new FormControl(null, [Validators.required, Validators.maxLength(200)]),
-    price: new FormControl(null, [Validators.required, Validators.min(0)]),
-    category: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-    image: new FormControl(null, [Validators.required]),
-    active: new FormControl(true, [Validators.required]),
-  });
-}
 
 
 
@@ -53,15 +45,10 @@ ngOnInit(): void {
 onSubmit() {
   if (this.ProductForm.valid) {
     const product: IProduct = this.ProductForm.value as IProduct;
-
-    
-
-
     
     this.ProductoService
-      .insert(product)
+      .agregarProducto(product) 
       .then(() => {
-        this.ProductoService.getAllProductos().push(product);
         alert('Producto agregado con éxito');
         this.router.navigate(['/productos']);
       })
@@ -72,8 +59,6 @@ onSubmit() {
 
     this.ProductForm.reset();
     this.ProductForm.get('active')?.setValue(true);
-  } else {
-    alert('Completa el formulario correctamente');
   }
 }
 

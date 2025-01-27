@@ -22,14 +22,14 @@
             <div class="my-2">  
                 <label for="description" class="form-label">Descripcion</label>
                 <input type="text" class="form-control mb-3" placeholder="Descripcion" id="edad" formControlName="description">
-                @if(checkControl('name','required')){
+                @if(checkControl('description','required')){
                     <p class="error">Campo requerido</p>
                 }
             </div>
             <div class="my-2">  
                 <label for="price" class="form-label">Precio</label>
                 <input type="number" class="form-control mb-3" placeholder="Precio" id="price" formControlName="price">
-                @if(checkControl('name','required')){
+                @if(checkControl('price','required')){
                     <p class="error">Campo requerido</p>
                 }
                 @if (checkControl('email','pattern')) {
@@ -39,24 +39,16 @@
             <div class="my-2">  
                 <label for="category" class="form-label">Categoria</label>
                 <input type="text" class="form-control mb-3" placeholder="categoria" id="category" formControlName="category">
-                @if(checkControl('name','required')){
+                @if(checkControl('category','required')){
                     <p class="error">Campo requerido</p>
                 }
-                @if(checkControl('name','minlength')){
+                @if(checkControl('category','minlength')){
                     <p class="error">El campo debe tener al menos 3 caracteres</p>
                 }
             </div>
             <div class="my-2">
                 <label for="image" class="form-label">Url de la Imagen</label>
-                <input 
-                type="text"
-                id="image"
-                class="form-control"
-                placeholder="Introduce la Url de la imagen"
-                name="image"
-                formControlName="image"
-                >
-                
+                <input type="text"id="image" class="form-control"placeholder="Introduce la Url de la imagen"name="image"formControlName="image">
             </div>
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="active">

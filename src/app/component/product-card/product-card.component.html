@@ -1,8 +1,9 @@
-<div class="card bg-dark text-white shadow-sm m-2" style="width: 18rem;">
+<div class="card bg-light text-blue shadow-sm m-2" style="width: 18rem;">
     <img [src]="miProducto.image" class="card-img-top" [alt]="miProducto.name">
     <div class="card-body">
         <h5 class="card-title text-primary">{{ miProducto.name }}</h5>
         <p class="card-text text-muted">{{ miProducto.category }}</p>
+        <p class="card-text">{{miProducto.price}}</p>
         <p class="card-text">{{ miProducto.description }}</p>
         <button class="btn btn-outline-danger btn-sm" (click)="deleteProducto(miProducto)">Eliminar</button>
     </div>

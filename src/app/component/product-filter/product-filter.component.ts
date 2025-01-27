@@ -17,13 +17,12 @@ export class ProductFilterComponent {
 
 constructor() {
 this.filterForm = new FormGroup({
-  name: new FormControl(''),
-  category: new FormControl(''),
-  minPrice: new FormControl(null, [Validators.min(0)]),
-  maxPrice: new FormControl(null, [Validators.min(0)]),
-  active: new FormControl(false),
+  nombre: new FormControl(''),        
+  categoria: new FormControl(''),       
+  precioMin: new FormControl(null, [Validators.min(0)]),
+  precioMax: new FormControl(null, [Validators.min(0)]), 
+  activo: new FormControl(false),       
 });
-
 }
 applyFilter() {
   this.filtersChanged.emit(this.filterForm.value);

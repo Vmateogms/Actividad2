@@ -1,99 +1,81 @@
 import { inject, Injectable } from '@angular/core';
 import { filter, lastValueFrom, Observable } from 'rxjs';
 import { IProduct } from '../interface/iproducto';
-import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
-
-  private arrProductos: IProduct[];
-  private apiUrl = 'https://jsonblob.com/api/1331621654476021760'
+  private apiUrl = 'https://jsonblob.com/api/1333516863627517952';
   private productos: IProduct[] = [];
-   httpClient = inject(HttpClient);
 
 
-  constructor(private http: HttpClient) {
-    this.arrProductos = [];
-    //JsonBlob solo permite POST y GET. Todo lo de eliminacion es en local.
-    fetch("https://jsonblob.com/api/1332782547565993984")
-      .then(response => response.json())
-      .then(productos => {
-          productos.forEach((element: any) => {
-          this.arrProductos.push(element as IProduct);
-        });
-      });
+  async getAllProducts(): Promise<IProduct[]> {
+    if (this.productos.length === 0) {
+      try {
+        const respuesta = await fetch(this.apiUrl);
+        if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
+        this.productos = await respuesta.json() || [];
 
-    console.log("Los datos son:" + this.arrProductos)
-  }
-  
-
-
-
-
-  getAllProductos(): IProduct[]
-  {
-    return this.arrProductos;
-  }
-
-  deleteByName(name: string): IProduct[]{
-    let i = this.arrProductos.findIndex(serie => serie.name == name);
-    if (i != -1 && i >= 0 && i < this.arrProductos.length) {
-      this.arrProductos.splice(i, 1);
+        console.log('Datos iniciales cargados');
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+        throw error;
+      }
     }
-
-    return this.arrProductos;
-}
-
-
-
-//hacer el filter
-getDataForm(filter: any) {
-let mifiltro = "";
-if ( filter.nombre != undefined) {
-  filter += "nombre"
-  this.arrProductos.filter(IProduct => IProduct.name == filter.name)
-}
-}
-
-
-filterProductos(filters: any): IProduct[] {
-  console.log("Filtrando con los valores:", filters);
-  return this.arrProductos.filter(product => {
-    return (
-      (!filters.name || product.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-      (!filters.category || product.category.toLowerCase().includes(filters.category.toLowerCase())) &&
-      (!filters.minPrice || product.price >= filters.minPrice) &&
-      (!filters.maxPrice || product.price <= filters.maxPrice) &&
-      (filters.active === undefined || product.active === filters.active)
-    );
-  })
-}
-
-
-
-
-
-
-
-// hacer fetch de los productos y rellenar el array interno
-   fetchProductos(): Observable<IProduct[]> {
-  return this.httpClient.get<IProduct[]>(this.apiUrl);
+    return this.productos;
   }
 
-//   // Obtener productos del array
-   getProducto(): IProduct[] {
-   return this.arrProductos;
- }
-
-
-  delete(id: string): Promise<IProduct> {
-    return lastValueFrom(this.httpClient.delete<IProduct>(`${this.apiUrl}/${id}`));
+  eliminarProducto(id: string): void {
+  this.productos = this.productos.filter((product) => product._id !== id);
 }
+  async agregarProducto(nuevoProducto: IProduct): Promise<void> {
+    this.productos.push(nuevoProducto);
+    await this.guardarCambios();
+  }
 
-  insert(producto: IProduct): Promise<IProduct>{
-   return lastValueFrom(this.httpClient.put<IProduct>(this.apiUrl, producto));
- }
+  obtenerCategorias(): string[] {
+    return [...new Set(this.productos.map(p => p.category))];
+  }
 
+  filtrarProductos(filtros: {nombre?: string; categoria?: string; precioMin?: number; precioMax?: number; activo?: boolean}): IProduct[] {
+    return this.productos.filter(p => {
+      const cumpleNombre = filtros.nombre ? 
+        p.name.toLowerCase().includes(filtros.nombre.toLowerCase()) : true;
+      
+      const cumpleCategoria = filtros.categoria ? 
+      p.category.toLowerCase() === filtros.categoria.toLowerCase() : true;
+      
+      const cumplePrecioMin = filtros.precioMin !== undefined ? 
+      p.price >= filtros.precioMin : true;
+    
+      const cumplePrecioMax = filtros.precioMax !== undefined ? 
+      p.price <= filtros.precioMax : true;
+      
+      const cumpleEstado = filtros.activo !== undefined ? 
+        p.active === filtros.activo : true;
+
+      return cumpleNombre && cumpleCategoria && cumplePrecioMin && cumplePrecioMax && cumpleEstado;
+    });
+  }
+
+  private async guardarCambios(): Promise<void> {
+    try {
+      const respuesta = await fetch(this.apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.productos)
+      });
+      
+      if (!respuesta.ok) throw new Error(`Error al guardar: ${respuesta.status}`);
+      
+      console.log('Cambios guardados exitosamente');
+    } catch (error) {
+      console.error('Error al guardar cambios:', error);
+      throw error;
+    }
+  }
 }
